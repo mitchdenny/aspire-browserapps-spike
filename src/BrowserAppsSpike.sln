@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.0.0
+MinimumVisualStudioVersion = 17.8.0.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserAppsSpike.AppHost", "BrowserAppsSpike.AppHost\BrowserAppsSpike.AppHost.csproj", "{C5C15F49-90F3-487C-A4F0-0BD6976A8D59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserAppsSpike.ServiceDefaults", "BrowserAppsSpike.ServiceDefaults\BrowserAppsSpike.ServiceDefaults.csproj", "{E359BFA0-0956-4855-9D1D-2E5CE3BEEA3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserAppsSpike.ApiService", "BrowserAppsSpike.ApiService\BrowserAppsSpike.ApiService.csproj", "{00EE1BE3-D729-47F9-97BF-39EB3F59263F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserAppsSpike.Web", "BrowserAppsSpike.Web\BrowserAppsSpike.Web.csproj", "{CF6AD50F-A18D-41C7-AC73-A4E152089547}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5C15F49-90F3-487C-A4F0-0BD6976A8D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C15F49-90F3-487C-A4F0-0BD6976A8D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C15F49-90F3-487C-A4F0-0BD6976A8D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C15F49-90F3-487C-A4F0-0BD6976A8D59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E359BFA0-0956-4855-9D1D-2E5CE3BEEA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E359BFA0-0956-4855-9D1D-2E5CE3BEEA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E359BFA0-0956-4855-9D1D-2E5CE3BEEA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E359BFA0-0956-4855-9D1D-2E5CE3BEEA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EE1BE3-D729-47F9-97BF-39EB3F59263F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EE1BE3-D729-47F9-97BF-39EB3F59263F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EE1BE3-D729-47F9-97BF-39EB3F59263F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EE1BE3-D729-47F9-97BF-39EB3F59263F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF6AD50F-A18D-41C7-AC73-A4E152089547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF6AD50F-A18D-41C7-AC73-A4E152089547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF6AD50F-A18D-41C7-AC73-A4E152089547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF6AD50F-A18D-41C7-AC73-A4E152089547}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1AB8F893-21F3-45E9-B583-7C3F446ADC0B}
+	EndGlobalSection
+EndGlobal
