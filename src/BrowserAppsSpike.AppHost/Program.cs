@@ -1,6 +1,8 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var staticFilesBrowserApp = builder.AddBrowserApp("staticfiles", "../staticfiles");
+var staticFilesBrowserApp = builder.AddBrowserApp("staticfiles", "../staticfilesapp");
+
+var nextjsBrowserApp = builder.AddBrowserApp("nextjs", "../nextjsapp");
 
 var apiService = builder.AddProject<Projects.BrowserAppsSpike_ApiService>("apiservice");
 

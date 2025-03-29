@@ -5,24 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pure HTML & CSS Web Apps</title>
     <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --text-color: #333;
+            --container-bg: #ffffff;
+            --button-bg: #3b82f6;
+            --button-hover-bg: #2563eb;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1f2937;
+            --text-color: #f9fafb;
+            --container-bg: #374151;
+            --button-bg: #2563eb;
+            --button-hover-bg: #1d4ed8;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-            color: #333;
+            background: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
         }
+
         .container {
             text-align: center;
-            background: linear-gradient(135deg, #ffffff, #f9fafb);
+            background: var(--container-bg);
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             max-width: 600px;
         }
+
         h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
@@ -30,32 +49,98 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         p {
             font-size: 1.2rem;
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
+
         a {
             display: inline-block;
             text-decoration: none;
             color: #ffffff;
-            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            background: var(--button-bg);
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
             font-weight: bold;
             transition: background 0.3s ease;
         }
+
         a:hover {
-            background: linear-gradient(90deg, #2563eb, #1d4ed8);
+            background: var(--button-hover-bg);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--button-bg);
+            color: #ffffff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--button-hover-bg);
         }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle">Dark Mode</button>
     <div class="container">
         <h1>Pure HTML & CSS Web Apps</h1>
         <p>Web applications built with just HTML and CSS are lightweight, fast, and incredibly versatile. They showcase the power of simplicity and creativity, proving that you don't always need complex frameworks to create something amazing.</p>
         <p>With subtle gradients, responsive layouts, and clean design, HTML and CSS can deliver stunning user experiences.</p>
         <a href="#">Learn More</a>
     </div>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Load the saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+
+        themeToggle.addEventListener('click', () => {
+            const isDarkMode = body.getAttribute('data-theme') === 'dark';
+            const newTheme = isDarkMode ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = isDarkMode ? 'Dark Mode' : 'Light Mode';
+
+            // Save the selected theme to localStorage
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Periodically check for updates if running on localhost
+        if (location.hostname === 'localhost') {
+            const checkForUpdates = async () => {
+                try {
+                    const response = await fetch('/path/to/your/file', { method: 'HEAD' });
+                    const serverLastModified = response.headers.get('Last-Modified');
+                    const clientLastModified = localStorage.getItem('lastModified');
+
+                    if (clientLastModified && serverLastModified !== clientLastModified) {
+                        // If the file has been updated, reload the page
+                        localStorage.setItem('lastModified', serverLastModified);
+                        location.reload();
+                    } else if (!clientLastModified) {
+                        // Save the initial last modified time
+                        localStorage.setItem('lastModified', serverLastModified);
+                    }
+                } catch (error) {
+                    console.error('Error checking for updates:', error);
+                }
+            };
+
+            // Check for updates every 1 second
+            setInterval(checkForUpdates, 1000);
+        }
+    </script>
 </body>
 </html>
