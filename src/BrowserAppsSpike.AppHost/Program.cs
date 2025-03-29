@@ -4,16 +4,10 @@ var staticFilesBrowserApp = builder.AddBrowserApp("staticfiles", "../staticfiles
 
 var apiService = builder.AddProject<Projects.BrowserAppsSpike_ApiService>("apiservice");
 
-builder.AddProject<Projects.BrowserAppsSpike_Web>("webfrontend")
-    .WithExternalHttpEndpoints()
-    .WithReference(apiService)
-    .WaitFor(apiService);
+var nextJs = builder.AddNextJsApp("nextjs", "../nextjsapp")
+                    .WithFowardingTo("/api*/*", apiService.GetEndpoint("http"));
 
-var nextjsBrowserApp = builder.AddBrowserApp("nextjs", "../nextjsapp")
-                              .WithRunCommand("npm", ["run", "dev"], runCommand => {
-                                    runCommand.WithHttpEndpoint(env: "PORT");
-                              });
-
-nextjsBrowserApp.WithFowardingTo("/api*", apiService.GetEndpoint("http"));
+var viteapp = builder.AddViteApp("viteapp", "../viteapp")
+                     .WithFowardingTo("/api*/*", apiService.GetEndpoint("http"));
 
 builder.Build().Run();

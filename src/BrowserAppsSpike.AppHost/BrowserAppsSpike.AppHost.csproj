@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BrowserAppsSpike.ApiService\BrowserAppsSpike.ApiService.csproj" />
-    <ProjectReference Include="..\BrowserAppsSpike.Web\BrowserAppsSpike.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -38,6 +38,17 @@ internal static class BrowserAppExtensions
                       .WithHttpEndpoint(targetPort: 80);
     }
 
+    public static IResourceBuilder<T> WithRestoreCommand<T>(this IResourceBuilder<T> builder, string command, string[]? args = null, Action<IResourceBuilder<ExecutableResource>>? configureExecutable = null) where T: BrowserAppResource
+    {
+        var restoreCommand = builder.ApplicationBuilder.AddExecutable($"{builder.Resource.Name}-restore-command", command, builder.Resource.Path, args)
+                                                       .WithParentRelationship(builder.Resource);
+
+        configureExecutable?.Invoke(restoreCommand);
+
+        builder.WaitForCompletion(restoreCommand);
+        return builder;
+    }
+
     public static IResourceBuilder<T> WithRunCommand<T>(this IResourceBuilder<T> builder, string command, string[]? args = null, Action<IResourceBuilder<ExecutableResource>>? configureExecutable = null) where T: BrowserAppResource
     {
         var runCommand = builder.ApplicationBuilder.AddExecutable($"{builder.Resource.Name}-run-command", command, builder.Resource.Path, args)
@@ -62,6 +73,44 @@ internal static class BrowserAppExtensions
         });
 
         return builder;
+    }
+
+    public static IResourceBuilder<BrowserAppResource> AddNextJsApp(this IDistributedApplicationBuilder builder, string name, string path)
+    {
+        var browserApp = builder.AddBrowserApp(name, path);
+
+        browserApp.WithRunCommand("npm", ["run", "dev"], runCommand => {
+            runCommand.WithHttpEndpoint(env: "PORT");
+            browserApp.WithRestoreCommand("npm", ["install"], (restoreCommand) => {
+                runCommand.WaitForCompletion(restoreCommand);
+            });
+        });
+
+        return browserApp;
+    }
+
+    public static IResourceBuilder<BrowserAppResource> AddViteApp(this IDistributedApplicationBuilder builder, string name, string path)
+    {
+        var browserApp = builder.AddBrowserApp(name, path);
+
+        browserApp.WithRunCommand("npm", ["run", "dev"], runCommand => {
+            runCommand.WithHttpEndpoint();
+
+            runCommand.WithArgs(context => {
+
+                var http = runCommand.GetEndpoint("http");
+                context.Args.Add("--");
+                context.Args.Add("--port");
+                context.Args.Add(ReferenceExpression.Create($"{http.Property(EndpointProperty.TargetPort)}"));
+
+            });
+
+            browserApp.WithRestoreCommand("npm", ["install"], (restoreCommand) => {
+                runCommand.WaitForCompletion(restoreCommand);
+            });
+        });
+
+        return browserApp;
     }
 }
 
