@@ -25,15 +25,25 @@ internal static class BrowserAppExtensions
             var matcherEvent = new AdvertiseCaddyMatcherEvent(resource);
             await builder.Eventing.PublishAsync(matcherEvent, ct);
             
-            foreach (var matcher in matcherEvent.Matchers)
+            if (matcherEvent.Matchers.Count != 0)
             {
-                await writer.WriteLineAsync($"reverse_proxy {matcher.Matcher} host.docker.internal:{matcher.Endpoint.Port}");
+                foreach (var matcher in matcherEvent.Matchers)
+                {
+                    await writer.WriteLineAsync($"reverse_proxy {matcher.Matcher} host.docker.internal:{matcher.Endpoint.Port}");
+                }
             }
+            else
+            {
+                // If we don't have any matchers we assume that we are
+                // just in static file serving mode.
+                await writer.WriteLineAsync("file_server");
+            }
+
         });
 
         return builder.AddResource(resource)
                       .WithImage("caddy:latest")
-                      .WithBindMount(path, "/usr/share/caddy")
+                      .WithBindMount(path, "/srv")
                       .WithBindMount(caddyConfigPath, "/etc/caddy/Caddyfile")
                       .WithHttpEndpoint(targetPort: 80);
     }
